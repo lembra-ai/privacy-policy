@@ -1,125 +1,271 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8"/>
+  <meta charset="UTF-8" />
   <title>Lembra Aí</title>
-  <meta name="description" content="Aplicativo simples e eficaz para nunca mais esquecer compromissos, integrado ao WhatsApp."/>
+  <meta name="description" content="Nunca mais esqueça de pagar suas contas ou outros compromissos importantes."/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <style>
-    /* ==== Reset Básico ==== */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+    /* CSS Variables for consistency */
+    :root {
+      --primary-color: #25D366;
+      --secondary-color: #128C7E;
+      --light-green: #dcf8c6;
+      --white: #fff;
+      --background: #f0f2f5;
+      --text-color: #333;
+      --gray: #666;
+    }
+
+    /* Reset & Base Styles */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-
-    /* ==== Corpo ==== */
     body {
-      font-family: Arial, sans-serif;
-      background: #f7f7f7;
-      color: #333;
+      font-family: 'Inter', sans-serif;
+      background: var(--background);
+      color: var(--text-color);
       line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
     }
-
-    /* ==== Cabeçalho ==== */
-    header {
-      background: #2c3e50;
-      color: #fff;
-      text-align: center;
-      padding: 40px 20px;
-    }
-
-    header h1 {
-      font-size: 2.5rem;
-      margin-bottom: 10px;
-    }
-
-    header p {
-      font-size: 1.2rem;
-      margin-top: 5px;
-    }
-
-    /* ==== Conteúdo Principal ==== */
-    main {
-      max-width: 1200px;
+    .container {
+      max-width: 900px;
       margin: 0 auto;
-      padding: 40px 20px;
+      padding: 20px;
+    }
+
+    /* Header Section */
+    header {
       text-align: center;
+      padding: 60px 20px 40px;
+      background: linear-gradient(135deg, #e0ffe0, var(--background));
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+      margin-bottom: 40px;
+    }
+    header h1 {
+      font-size: 3rem;
+      color: var(--primary-color);
+      margin-bottom: 10px;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+    }
+    header p {
+      font-size: 1.3rem;
+      color: var(--gray);
+      max-width: 600px;
+      margin: 0 auto 30px;
+      line-height: 1.5;
     }
 
-    main h2 {
-      font-size: 2rem;
-      margin-bottom: 20px;
-      color: #2c3e50;
-    }
-
-    main p {
-      font-size: 1.1rem;
-      margin-bottom: 20px;
-      color: #555;
-    }
-
-    /* ==== Botão de Ação ==== */
+    /* WhatsApp Button */
     .btn-whatsapp {
       display: inline-block;
+      background: var(--primary-color);
+      color: var(--white);
       text-decoration: none;
-      background: #25D366; /* cor típica do WhatsApp */
-      color: #fff;
+      padding: 18px 36px;
+      border-radius: 50px;
       font-size: 1.2rem;
-      padding: 15px 25px;
-      border-radius: 5px;
-      transition: background 0.3s ease;
+      font-weight: 600;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 6px 12px rgba(37, 211, 102, 0.3);
+      margin-top: 20px;
     }
-
     .btn-whatsapp:hover {
-      background: #20b458;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 16px rgba(37, 211, 102, 0.4);
     }
 
-    /* ==== Rodapé ==== */
+    /* Chat Banner with Custom Scroll Controls */
+    .chat-banner-wrapper {
+      position: relative;
+      margin: 20px 0 40px;
+      overflow: hidden;
+    }
+    .chat-banner {
+      display: flex;
+      gap: 15px;
+      padding: 20px;
+      /* Allow horizontal scrolling but hide native scrollbar */
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; /* Firefox */
+    }
+    .chat-banner::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera */
+    }
+    .chat-message {
+      flex: 0 0 auto;
+      background: var(--white);
+      border-radius: 20px;
+      padding: 14px 22px;
+      min-width: 250px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      font-size: 1rem;
+      line-height: 1.4;
+      transition: transform 0.3s ease;
+    }
+    .chat-message:hover {
+      transform: translateY(-3px);
+    }
+    .chat-message.sent {
+      background: var(--light-green);
+    }
+
+    /* Gradient overlays to fade out edges */
+    .gradient-overlay {
+      position: absolute;
+      top: 0;
+      width: 60px;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .gradient-overlay.left {
+      left: 0;
+      background: linear-gradient(to right, var(--background), transparent);
+    }
+    .gradient-overlay.right {
+      right: 0;
+      background: linear-gradient(to left, var(--background), transparent);
+    }
+
+    /* Arrow Controls */
+    .scroll-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 40px;
+      height: 40px;
+      background: var(--primary-color);
+      color: var(--white);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 2;
+      transition: background 0.3s ease, transform 0.3s ease;
+      font-size: 1.2rem;
+    }
+    .scroll-arrow:hover {
+      background: var(--secondary-color);
+      transform: translateY(-50%) scale(1.1);
+    }
+    .scroll-arrow.left {
+      left: 10px;
+    }
+    .scroll-arrow.right {
+      right: 10px;
+    }
+
+    /* Scroll Indicator (Optional if you still want a text cue) */
+    .scroll-indicator {
+      text-align: center;
+      color: var(--gray);
+      margin-bottom: 20px;
+      font-size: 1rem;
+      font-style: italic;
+    }
+
+    /* Footer */
     footer {
       text-align: center;
-      background: #ecf0f1;
+      padding: 20px;
+      color: var(--gray);
       font-size: 0.9rem;
-      padding: 10px 20px;
     }
-
     footer a {
-      color: #2c3e50;
+      color: var(--primary-color);
       text-decoration: none;
-      margin: 0 5px;
+      transition: color 0.2s ease;
     }
-
     footer a:hover {
       text-decoration: underline;
+      color: var(--secondary-color);
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 480px) {
+      header h1 {
+        font-size: 2.5rem;
+      }
+      .chat-message {
+        min-width: 200px;
+      }
+      .scroll-arrow {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+      }
+      .gradient-overlay {
+        width: 40px;
+      }
     }
   </style>
 </head>
 <body>
+  <div class="container">
+    <header>
+      <h1>Lembra Aí! 🔔</h1>
+      <p>Seu assistente pessoal no WhatsApp para nunca mais esquecer nada!</p>
 
-<header>
-  <h1>Lembra Aí!</h1>
-  <p>Nunca mais esqueça suas tarefas importantes</p>
-</header>
+      <!-- Chat Banner with Arrow Controls and Gradient Overlays -->
+      <div class="chat-banner-wrapper">
+        <div class="scroll-arrow left">&#9664;</div>
+        <div class="chat-banner">
+          <div class="chat-message sent">
+            "Me lembra de pagar o cartão dia 10" 💳
+          </div>
+          <div class="chat-message">
+            "Lembra de pagar os boletos amanhã" 📄
+          </div>
+          <div class="chat-message sent">
+            "Não esquece da reunião às 14h" 👥
+          </div>
+          <div class="chat-message">
+            "Me avisa de regar as plantas na sexta" 🌱
+          </div>
+          <div class="chat-message sent">
+            "Lembra da consulta terça 15h" 🏥
+          </div>
+        </div>
+        <div class="scroll-arrow right">&#9654;</div>
+        <div class="gradient-overlay left"></div>
+        <div class="gradient-overlay right"></div>
+      </div>
 
-<main>
-  <h2>Como Funciona?</h2>
-  <p>
-    O <strong>Lembra Aí</strong> conecta-se ao seu WhatsApp para enviar lembretes personalizados.  
-    Basta adicionar seus compromissos e deixar o resto conosco.  
-    Quando chegar a hora, você receberá um alerta diretamente no WhatsApp, garantindo que não perca nada importante!
-  </p>
+      <a class="btn-whatsapp" href="https://wa.me/seu_numero_com_codigo_pais?text=Oi%21+Quero+come%C3%A7ar+a+usar+o+Lembra+A%C3%AD%21" target="_blank">
+        Começar a Usar ▶️
+      </a>
+    </header>
 
-  <a class="btn-whatsapp" href="https://wa.me/seu_numero_com_codigo_pais?text=Ol%C3%A1%2C+quero+me+cadastrar+no+App+de+Lembretes." target="_blank">
-    Iniciar Chat no WhatsApp
-  </a>
-</main>
+    <footer>
+      <p>
+        <a href="privacidade">Privacidade</a> • © 2025 Lembra Aí
+      </p>
+    </footer>
+  </div>
 
-<footer>
-  <p>
-    <a href="politica-de-privacidade" target="_blank">Política de Privacidade</a>
-    | &copy; 2025 <strong>Lembra Aí</strong>
-  </p>
-</footer>
+  <!-- JavaScript for Arrow Scrolling -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const chatBanner = document.querySelector('.chat-banner');
+      const leftArrow = document.querySelector('.scroll-arrow.left');
+      const rightArrow = document.querySelector('.scroll-arrow.right');
 
+      leftArrow.addEventListener('click', function() {
+        chatBanner.scrollBy({ left: -300, behavior: 'smooth' });
+      });
+      rightArrow.addEventListener('click', function() {
+        chatBanner.scrollBy({ left: 300, behavior: 'smooth' });
+      });
+    });
+  </script>
 </body>
 </html>
