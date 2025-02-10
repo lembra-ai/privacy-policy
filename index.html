@@ -207,6 +207,75 @@
         width: 40px;
       }
     }
+
+    .site-footer {
+      background: var(--background);
+      padding: 30px 0;
+      margin-top: 40px;
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    
+    .footer-content {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+    }
+    
+    .footer-section {
+      margin-bottom: 20px;
+    }
+    
+    .footer-section h3 {
+      color: var(--primary-color);
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+    
+    .footer-section ul {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .footer-section ul li {
+      margin-bottom: 10px;
+    }
+    
+    .footer-section a {
+      color: var(--text-color);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    
+    .footer-section a:hover {
+      color: var(--primary-color);
+    }
+    
+    .footer-bottom {
+      text-align: center;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+      color: var(--gray);
+      font-size: 0.9rem;
+    }
+    
+    .contact-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    
+    .contact-icon {
+      color: var(--primary-color);
+      width: 20px;
+      height: 20px;
+    }
+
   </style>
 </head>
 <body>
@@ -243,12 +312,58 @@
       <a class="btn-whatsapp" href="https://wa.me/seu_numero_com_codigo_pais?text=Oi%21+Quero+come%C3%A7ar+a+usar+o+Lembra+A%C3%AD%21" target="_blank">
         Começar a Usar ▶️
       </a>
+
+      <div class="opt-in-container" style="margin: 20px 0;">
+        <label class="opt-in-label" style="display: flex; align-items: flex-start; gap: 10px; color: var(--gray); font-size: 0.9rem; line-height: 1.4;">
+          <input type="checkbox" required style="margin-top: 3px;">
+          <span>
+            Concordo em receber lembretes e notificações via WhatsApp e aceito os 
+            <a href="/termos" style="color: var(--primary-color); text-decoration: none;">Termos de Serviço</a>,
+            <a href="/privacidade" style="color: var(--primary-color); text-decoration: none;">Política de Privacidade</a> e
+            <a href="https://www.whatsapp.com/legal/business-policy" target="_blank" style="color: var(--primary-color); text-decoration: none;">Política do WhatsApp Business</a>.
+          </span>
+        </label>
+      </div>
     </header>
 
-    <footer>
-      <p>
-        <a href="privacidade">Privacidade</a> • © 2025 Lembra Aí
-      </p>
+    <footer class="site-footer">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>Links Importantes</h3>
+          <ul>
+            <li><a href="/termos-de-servico">Termos de Serviço</a></li>
+            <li><a href="/politica-de-privacidade">Política de Privacidade</a></li>
+            <li><a href="/exclusao-de-dados">Exclusão de Dados</a></li>
+            <li><a href="https://www.whatsapp.com/legal/business-policy" target="_blank">Política do WhatsApp Business</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-section">
+          <h3>Como Funciona</h3>
+          <p>O Lembra Aí é seu assistente pessoal que envia lembretes via WhatsApp. Configure seus lembretes facilmente e nunca mais esqueça compromissos importantes.</p>
+        </div>
+        
+        <div class="footer-section">
+          <h3>Contato</h3>
+          <div class="contact-info">
+            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
+            </svg>
+            <a href="https://wa.me/5531971664962">WhatsApp: (31) 97166-4962</a>
+          </div>
+          <div class="contact-info">
+            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+              <path d="M22 6l-10 7L2 6" />
+            </svg>
+            <a href="mailto:contato@lembraai.com">contato@lembraai.com</a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>© 2025 Lembra Aí. Todos os direitos reservados.</p>
+      </div>
     </footer>
   </div>
 
