@@ -276,6 +276,35 @@
       height: 20px;
     }
 
+    .btn-whatsapp {
+      background: #25D366;
+      color: white;
+      padding: 12px 24px;
+      text-decoration: none;
+      border-radius: 6px;
+      display: inline-block;
+      opacity: 0.5;
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-whatsapp.active {
+      opacity: 1;
+      pointer-events: all;
+      cursor: pointer;
+    }
+    
+    .error-message {
+      color: #dc3545;
+      font-size: 0.875rem;
+      margin-top: 8px;
+      display: none;
+    }
+    
+    .error-message.show {
+      display: block;
+    }
+
   </style>
 </head>
 <body>
@@ -309,13 +338,13 @@
         <div class="gradient-overlay right"></div>
       </div>
 
-      <a class="btn-whatsapp" href="https://wa.me/seu_numero_com_codigo_pais?text=Oi%21+Quero+come%C3%A7ar+a+usar+o+Lembra+A%C3%AD%21" target="_blank">
+      <a id="whatsappButton" class="btn-whatsapp" href="https://wa.me/seu_numero_com_codigo_pais?text=Oi%21+Quero+come%C3%A7ar+a+usar+o+Lembra+A%C3%AD%21" target="_blank">
         Começar a Usar ▶️
       </a>
-
+      
       <div class="opt-in-container" style="margin: 20px 0;">
         <label class="opt-in-label" style="display: flex; align-items: flex-start; gap: 10px; color: var(--gray); font-size: 0.9rem; line-height: 1.4;">
-          <input type="checkbox" required style="margin-top: 3px;">
+          <input type="checkbox" id="optinCheckbox" required style="margin-top: 3px;">
           <span>
             Concordo em receber lembretes e notificações via WhatsApp e aceito os 
             <a href="/termos" style="color: var(--primary-color); text-decoration: none;">Termos de Serviço</a>,
@@ -323,6 +352,9 @@
             <a href="https://www.whatsapp.com/legal/business-policy" target="_blank" style="color: var(--primary-color); text-decoration: none;">Política do WhatsApp Business</a>.
           </span>
         </label>
+        <div id="errorMessage" class="error-message">
+          Por favor, aceite os termos antes de prosseguir.
+        </div>
       </div>
     </header>
 
@@ -380,6 +412,35 @@
       rightArrow.addEventListener('click', function() {
         chatBanner.scrollBy({ left: 300, behavior: 'smooth' });
       });
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+      const checkbox = document.getElementById('optinCheckbox');
+      const button = document.getElementById('whatsappButton');
+      const errorMessage = document.getElementById('errorMessage');
+      
+      // Função para atualizar o estado do botão
+      function updateButtonState() {
+        if (checkbox.checked) {
+          button.classList.add('active');
+          errorMessage.classList.remove('show');
+        } else {
+          button.classList.remove('active');
+        }
+      }
+      
+      // Listener para o checkbox
+      checkbox.addEventListener('change', updateButtonState);
+      
+      // Listener para o botão
+      button.addEventListener('click', function(e) {
+        if (!checkbox.checked) {
+          e.preventDefault();
+          errorMessage.classList.add('show');
+        }
+      });
+      
+      // Inicializar estado do botão
+      updateButtonState();
     });
   </script>
 </body>
